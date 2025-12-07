@@ -31,8 +31,13 @@
     "analytics",
     "developer-tools"
   ],
-  "author": "@vijaypushkin",
+  "author": "vijaypushkin",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vijaypushkin/gunsole-js.git",
+    "directory": "packages/gunsole-js"
+  },
   "devDependencies": {
     "@types/node": "^20.11.5",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
@@ -47,4 +52,3 @@
     "typescript": "^5.0.0"
   }
 }
-
