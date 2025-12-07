@@ -98,16 +98,19 @@ pnpm --filter gunsole-js build
 pnpm --filter gunsole-js test
 ```
 
-### Lint
+### Lint and Format
 
 ```bash
-pnpm lint
-```
+# Check for issues
+pnpm check
 
-### Format
+# Fix issues automatically
+pnpm check:fix
 
-```bash
-pnpm format
+# Or run separately
+pnpm lint        # Lint only
+pnpm lint:fix    # Lint and fix
+pnpm format      # Format only
 ```
 
 ## Configuration
