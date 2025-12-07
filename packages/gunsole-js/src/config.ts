@@ -1,0 +1,59 @@
+import type { ClientMode, GunsoleClientConfig } from "./types.js";
+
+/**
+ * Default endpoints for each mode
+ */
+const DEFAULT_ENDPOINTS: Record<ClientMode, string> = {
+  desktop: "http://localhost:8787",
+  local: "http://localhost:8787",
+  cloud: "https://api.gunsole.com",
+};
+
+/**
+ * Default configuration values
+ */
+const DEFAULT_CONFIG = {
+  batchSize: 10,
+  flushInterval: 5000,
+};
+
+/**
+ * Resolve the endpoint URL based on mode and custom endpoint
+ */
+export function resolveEndpoint(
+  mode: ClientMode,
+  customEndpoint?: string
+): string {
+  if (customEndpoint) {
+    return customEndpoint;
+  }
+  return DEFAULT_ENDPOINTS[mode];
+}
+
+/**
+ * Normalize and validate client configuration
+ */
+export function normalizeConfig(
+  config: GunsoleClientConfig
+): Required<GunsoleClientConfig> & { endpoint: string } {
+  if (!config.projectId) {
+    throw new Error("projectId is required");
+  }
+  if (!config.apiKey) {
+    throw new Error("apiKey is required");
+  }
+
+  return {
+    projectId: config.projectId,
+    apiKey: config.apiKey,
+    mode: config.mode,
+    endpoint: resolveEndpoint(config.mode, config.endpoint),
+    env: config.env ?? "",
+    appName: config.appName ?? "",
+    appVersion: config.appVersion ?? "",
+    defaultTags: config.defaultTags ?? {},
+    batchSize: config.batchSize ?? DEFAULT_CONFIG.batchSize,
+    flushInterval: config.flushInterval ?? DEFAULT_CONFIG.flushInterval,
+  };
+}
+
