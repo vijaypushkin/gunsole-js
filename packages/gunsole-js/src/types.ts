@@ -28,6 +28,8 @@ export interface LogOptions {
   context?: Record<string, unknown>;
   /** Tags for filtering/grouping */
   tags?: Record<string, string>;
+  /** Trace ID for distributed tracing */
+  traceId?: string;
 }
 
 /**
@@ -42,8 +44,10 @@ export interface LogEntry {
   context?: Record<string, unknown>;
   /** Tags for filtering/grouping */
   tags?: Record<string, string>;
-  /** Timestamp (ISO string or Unix timestamp) */
-  timestamp?: string | number;
+  /** Timestamp (Unix milliseconds, SDK fills if not provided) */
+  timestamp?: number;
+  /** Trace ID for distributed tracing */
+  traceId?: string;
 }
 
 /**
@@ -89,11 +93,23 @@ export interface GunsoleClientConfig {
 }
 
 /**
- * Internal log entry with metadata
+ * Internal log entry with metadata (sent to transport)
  */
-export interface InternalLogEntry extends LogEntry {
+export interface InternalLogEntry {
+  /** Bucket/category for the log */
+  bucket: string;
+  /** Human-readable message */
+  message: string;
   /** Log level */
   level: LogLevel;
+  /** Timestamp (Unix milliseconds) - required */
+  timestamp: number;
+  /** Additional context data */
+  context?: Record<string, unknown>;
+  /** Tags for filtering/grouping */
+  tags?: Record<string, string>;
+  /** Trace ID for distributed tracing */
+  traceId?: string;
   /** User ID at time of log */
   userId?: string;
   /** Session ID at time of log */

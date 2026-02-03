@@ -7,7 +7,6 @@ import type {
   LogOptions,
   UserInfo,
 } from "./types";
-import { normalizeTimestamp } from "./utils/time";
 
 /**
  * Global error handler state
@@ -88,7 +87,8 @@ export class GunsoleClient {
         bucket: options.bucket,
         message: options.message,
         context: options.context,
-        timestamp: normalizeTimestamp(undefined),
+        timestamp: Date.now(),
+        traceId: options.traceId,
         userId: this.user?.id,
         sessionId: this.sessionId ?? undefined,
         env: this.config.env || undefined,
